@@ -1,13 +1,15 @@
 package smajava;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Test 
 {
 	public static void main(String[] args) 
 	{
-		SmaLogger smaLogger = new SmaLogger();
-		List<Inverter> inverters;
+		Config config = new Config();
+		SmaLogger smaLogger = new SmaLogger(config);
+		List<Inverter> inverters = new ArrayList<Inverter>();
 		int rc = 0;
 		
 		System.out.println("Initializing SMA Logger");
@@ -23,7 +25,11 @@ public class Test
 			System.out.println("SMA Logger succesfully initialized");
 		}
 		
-		inverters = smaLogger.DetectDevices();
+		//Manual creation
+		inverters.add(smaLogger.CreateInverter("192.168.1.110"));
+		
+		//Network detection
+		//inverters = smaLogger.DetectDevices();		
 		
 		if(inverters.size() > 0)
 		{
@@ -36,6 +42,22 @@ public class Test
 		else
 		{
 			System.out.println("No inverters detected...");
+		}
+
+		System.out.println("logging on inverters...");
+		for(Inverter inv : inverters)
+		{
+			System.out.printf("Inverter %s logged on... ", inv.GetIP());
+			if(inv.Logon(config.userGroup, config.SMA_Password) > 0)
+				System.out.printf("Succesful \n");
+			else
+				System.out.printf("Unsuccesful\n");
+		}
+		
+		System.out.println("logging off inverters...");
+		for(Inverter inv : inverters)
+		{
+			inv.Logoff();
 		}
 		
 		System.out.println("Shutting down SMA Logger.");

@@ -24,7 +24,7 @@ public class Ethernet extends SBFNet
 	 */
 	public int Connect(short port)
 	{
-		if (VERBOSE.NORMAL) 
+		if (VERBOSE.Normal()) 
 			System.out.println("Initialising Socket...\n");
 		try
 		{
@@ -89,7 +89,7 @@ public class Ethernet extends SBFNet
 			} 
 	    	catch (SocketException e) 
 	    	{
-	    		if (DEBUG.HIGHEST) System.out.println("Error setting timeout socket \n" + e.getMessage());
+	    		if (DEBUG.Highest()) System.out.println("Error setting timeout socket \n" + e.getMessage());
 				return -1;
 			}
 	    	try 
@@ -99,12 +99,12 @@ public class Ethernet extends SBFNet
 			} 
 	    	catch (SocketTimeoutException e1)
 	    	{
-	    		if (DEBUG.HIGHEST) System.out.println("Timeout reading socket");
+	    		if (DEBUG.Highest()) System.out.println("Timeout reading socket");
 				return -1;
 	    	}
 	    	catch (IOException e) 
 	    	{
-	    		if (DEBUG.HIGHEST) System.out.println("Error reading socket \n" + e.getMessage());
+	    		if (DEBUG.Highest()) System.out.println("Error reading socket \n" + e.getMessage());
 				return -1;
 			}	    	
 			
@@ -113,10 +113,10 @@ public class Ethernet extends SBFNet
 				if (bytes_read > MAX_CommBuf)
 				{
 					MAX_CommBuf = bytes_read;
-					if (DEBUG.NORMAL)
+					if (DEBUG.Normal())
 						System.out.printf("MAX_CommBuf is now %d bytes\n", MAX_CommBuf);
 				}
-			   	if (DEBUG.NORMAL)
+			   	if (DEBUG.Normal())
 			   	{
 					System.out.printf("Received %d bytes from IP [%s]\n", bytes_read, recv.getAddress().getHostAddress());
 			   		if (bytes_read == 600 || bytes_read == 0)
@@ -139,7 +139,7 @@ public class Ethernet extends SBFNet
 	 */
 	public int Send(String toIP)
 	{
-		if (DEBUG.NORMAL) 
+		if (DEBUG.Normal()) 
 			misc.HexDump(pcktBuf, packetposition, 10);
 
 		DatagramPacket p = new DatagramPacket(pcktBuf, packetposition, new InetSocketAddress(toIP, port));
@@ -147,12 +147,12 @@ public class Ethernet extends SBFNet
 	    try 
 	    {
 			sock.send(p);
-			if (DEBUG.NORMAL) 
+			if (DEBUG.Normal()) 
 		    	System.out.println(bytes_sent + " Bytes sent to IP [" + toIP + "]");
 		} 
 	    catch (IOException e) 
 	    {
-	    	if (DEBUG.NORMAL) 
+	    	if (DEBUG.Normal()) 
 	    		System.out.println("Failed to send data");
 	    	return 0;
 		}

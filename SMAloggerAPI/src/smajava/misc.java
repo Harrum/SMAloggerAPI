@@ -19,35 +19,29 @@ public class misc
 	{
 		private static int verbose;
 		
-		public static boolean LOW;
-		public static boolean NORMAL;
-		public static boolean HIGH;
-		public static boolean VERYHIGH;
-		public static boolean HIGHEST;
-		
 		public static void SetVerbose(int verbose)
 		{
 			VERBOSE.verbose = verbose;
-			LOW = verbose >= 1;
-			NORMAL = verbose >= 2;
-			HIGH = verbose >= 3;
-			VERYHIGH = verbose >= 4;
-			HIGHEST = verbose >= 5;
 		}
 		
-		public static void PrintVerbose()
-		{
-			System.out.printf("Verbose is: %d\n", verbose);
-			if(VERBOSE.LOW)
-				System.out.println("Verbose is LOW");
-			if(NORMAL)
-				System.out.println("Verbose is NORMAL");
-			if(HIGH)
-				System.out.println("Verbose is HIGH");
-			if(VERYHIGH)
-				System.out.println("Verbose is VERYHIGH");
-			if(HIGHEST)
-				System.out.println("Verbose is HIGHEST");
+		public static boolean Low() {
+			return verbose >= 1;
+		}
+		
+		public static boolean Normal() {
+			return verbose >= 2;
+		}
+		
+		public static boolean High() {
+			return verbose >= 3;
+		}
+		
+		public static boolean VeryHigh() {
+			return verbose >= 4;
+		}
+		
+		public static boolean Highest() {
+			return verbose >= 5;
 		}
 	}
 	
@@ -55,20 +49,29 @@ public class misc
 	{
 		private static int debug;
 		
-		public static boolean LOW;
-		public static boolean NORMAL;
-		public static boolean HIGH;
-		public static boolean VERYHIGH;
-		public static boolean HIGHEST;
-		
 		public static void SetDebug(int debug)
 		{
 			DEBUG.debug = debug;
-			LOW = debug >= 1;
-			NORMAL = debug >= 2;
-			HIGH = debug >= 3;
-			VERYHIGH = debug >= 4;
-			HIGHEST = debug >= 5;
+		}
+		
+		public static boolean Low() {
+			return debug >= 1;
+		}
+		
+		public static boolean Normal() {
+			return debug >= 2;
+		}
+		
+		public static boolean High() {
+			return debug >= 3;
+		}
+		
+		public static boolean VeryHigh() {
+			return debug >= 4;
+		}
+		
+		public static boolean Highest() {
+			return debug >= 5;
 		}
 	}
 	

@@ -13,8 +13,6 @@ public class Config
 	final int MAX_CFG_AD = 300; // Days
 	final int MAX_CFG_AM = 300; // Months
 	final int MAX_CFG_AE = 300; // Months
-	public final static long UG_USER = 0x07L;
-	public final static long UG_INSTALLER = 0x0AL;
 	
 	private final int MAX_PATH = 260;
 	
@@ -93,7 +91,7 @@ public class Config
 		archEventMonths = 1;	// this month only
 //	    upload = 0;				// upload to PVoutput and others (See config file)
 	    forceInq = 0;			// Inquire inverter also during the night
-	    userGroup = UG_USER;
+	    userGroup = SmaLogger.UG_USER;
 	    // WebSolarLog support (http://www.websolarlog.com/index.php/tag/sma-spot/)
 	    // This is an undocumented feature and should only be used for WebSolarLog
 	    wsl = 0;
@@ -280,7 +278,7 @@ public class Config
 	            nospot = 1;
 
 	        else if (argv[i].equals("-installer"))
-	            userGroup = UG_INSTALLER;
+	            userGroup = SmaLogger.UG_INSTALLER;
 
 	        else if (argv[i].startsWith("-password:"))
 	            if (argv[i].length() == 10)
@@ -361,7 +359,7 @@ public class Config
 		IP_Address = "";
 	    outputPath = "";
 		outputPath_Events = "";
-	    if (userGroup == UG_USER) SMA_Password[0] = 0;
+	    if (userGroup == SmaLogger.UG_USER) SMA_Password[0] = 0;
 	    plantname = "";
 	    latitude = 0.0f;
 	    longitude = 0.0f;
@@ -434,7 +432,7 @@ public class Config
 	                	IP_Address = value;
 					else if(variable.equals("Password"))
 					{
-	                    if(userGroup == UG_USER) 
+	                    if(userGroup == SmaLogger.UG_USER) 
 	                    {
 	                    	for(int ch = 0; ch < value.length(); ch++)
 	                    	{
@@ -719,7 +717,6 @@ public class Config
 			System.out.println("\nBTAddress=" + BT_Address.toString());
 		if (BT_Address.length() == 0)	// No BT address -> Show IP address
 			System.out.println("\nIP_Address=" + IP_Address.toString());
-		System.out.print("\nPassword=<undisclosed>");
 		System.out.print("\nPassword=<undisclosed>" + 
 			"\nMIS_Enabled=" + MIS_Enabled +
 			"\nPlantname=" + new String(plantname) + 

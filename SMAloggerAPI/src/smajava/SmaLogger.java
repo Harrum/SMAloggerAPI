@@ -1,10 +1,13 @@
 package smajava;
 
+import inverter.Inverter;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import smaconn.Ethernet;
 import smajava.misc.DEBUG;
 import smajava.misc.VERBOSE;
 
@@ -23,12 +26,24 @@ public class SmaLogger
 	public static long AppSerial;
 	public static int quiet = 0;
 	
+	/**
+	 * Creates a new instance of the SMALogger and it's ethernet connection.
+	 * @param cfg Config class containing all the config data, this needs to be initialize elsewhere.
+	 */
 	public SmaLogger(Config cfg)
 	{
 		ethernet = new Ethernet();
 		config = cfg;
 	}
 	
+	/**
+	 * Initializes the SMALogger, also intializes the Config class and creates the ethernet
+	 * connection.
+	 * @param args The uses args for this API:
+	 * -v[1-5] To set the verbose logging level.
+	 * -d[1-5] To set the debug messaging level.
+	 * @return Returns 0 if everything went right.
+	 */
 	public int Initialize(String[] args)
 	{
 		int rc = 0;
@@ -55,7 +70,13 @@ public class SmaLogger
 	    quiet = config.quiet;
 	    DEBUG.SetDebug(config.debug);
 	    VERBOSE.SetVerbose(config.verbose);
-	    //quiet = cfg.quiet;
+	    
+	    int status = TagDefs.GetInstance().readall(config.AppPath, new String(config.locale));
+		if (status != TagDefs.READ_OK)
+		{
+			System.err.print("Error reading tags\n");
+			return(2);
+		}
 		
 		rc = ethernet.Connect(config.IP_Port);
 		if (rc != 0)
@@ -76,6 +97,9 @@ public class SmaLogger
 		return rc;
 	}
 	
+	/**
+	 * Shuts down the SMALogger and closes it's ethernet connection.
+	 */
 	public void ShutDown()
 	{
 		ethernet.Close();
@@ -83,7 +107,7 @@ public class SmaLogger
 	
 	/**
 	 * Used to manually create an inverter with a given ip adres, this method
-	 * gives the inverter a socket connection uses for communication.
+	 * gives the inverter a socket connection used for communication.
 	 * @param ip The ip adress of the inverter.
 	 * @return An inverter with the ip adress and a socket connection.
 	 */
@@ -170,7 +194,7 @@ public class SmaLogger
 		
 		for(Inverter inv : inverters)
 		{
-			if(inv.GetIP() == ip)
+			if(inv.GetIP().equals(ip))
 			{
 				res = true;
 				break;

@@ -3,10 +3,6 @@ package eth;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import javax.xml.bind.DatatypeConverter;
-
-import org.omg.CORBA.FREE_MEM;
-
 public class ethPacket 
 {
 	public byte dummy0;

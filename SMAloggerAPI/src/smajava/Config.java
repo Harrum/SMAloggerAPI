@@ -14,7 +14,7 @@ public class Config
 	final int MAX_CFG_AM = 300; // Months
 	final int MAX_CFG_AE = 300; // Months
 	
-	private final int MAX_PATH = 260;
+	//private final int MAX_PATH = 260;
 	
 	public String	ConfigFile;			//Fullpath to configuration file
 	public String	AppPath;

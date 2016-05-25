@@ -3,7 +3,6 @@ package smajava;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class misc 
 {
@@ -123,7 +122,7 @@ public class misc
 	    return (short) (b1 << 8 | b2 << 0);
 	}
 	
-	public static String printDate(Date date)
+	public static String printDate(long date)
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		return sdf.format(date);

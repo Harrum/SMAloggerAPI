@@ -5,7 +5,6 @@ import java.util.List;
 
 import inverter.Inverter;
 import inverterdata.InverterDataType;
-import smajava.Config;
 import smajava.SmaLogger;
 import smajava.misc;
 
@@ -18,8 +17,9 @@ public class MultiInverterTest {
 
 	public static void main(String[] args) 
 	{
-		Config config = new Config();
-		SmaLogger smaLogger = new SmaLogger(config);
+		final String PASSWORD = "0000";	//Default password
+		
+		SmaLogger smaLogger = new SmaLogger();
 		List<Inverter> inverters = new ArrayList<Inverter>();
 		int rc = 0;
 		
@@ -58,7 +58,7 @@ public class MultiInverterTest {
 		for(Inverter inverter : inverters)
 		{
 			System.out.printf("Inverter %s logged on... ", inverter.GetIP());
-			if(inverter.Logon(config.userGroup, config.SMA_Password) > -1)
+			if(inverter.Logon(PASSWORD) > -1)
 				System.out.printf("Succesful \n");
 			else
 				System.out.printf("Unsuccesful\n");

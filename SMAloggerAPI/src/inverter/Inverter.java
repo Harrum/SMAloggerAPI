@@ -42,11 +42,30 @@ public class Inverter extends SmaConnection
 	/**
 	 * Sends a logon request to the inverter which creates a connection.
 	 * Use this before getting data from the inverter but after the main connection was created.
+	 * NOTE: Only able to log on as a user now!
+	 * @param password The password used to login to the inverter.
+	 * @return Returns 0 if everything went ok.
+	 */
+	public int Logon(String password)
+	{
+		//The api needs the password in chararray form of a fixed size. 
+		//We convert it here so the user doesn't have to hassle with it and can just input a string.
+		char[] passArray = new char[13];
+		for(int ch = 0; ch < password.length(); ch++)
+    	{
+			passArray[ch] = password.charAt(ch);
+    	}
+		return Logon(SmaLogger.UG_USER, passArray);
+	}
+	
+	/**
+	 * Sends a logon request to the inverter which creates a connection.
+	 * Use this before getting data from the inverter but after the main connection was created.
 	 * @param userGroup The usergroup: (USER or INSTALLER)
 	 * @param password The password used to login to the inverter.
 	 * @return Returns 0 if everything went ok.
 	 */
-	public int Logon(long userGroup, char[] password)
+	private int Logon(long userGroup, char[] password)
 	{
 		int rc = 0;
 		//First initialize the connection.

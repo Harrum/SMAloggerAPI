@@ -4,7 +4,6 @@ import inverter.InvDeviceClass;
 import inverter.Inverter;
 import inverterdata.InverterDataType;
 
-import smajava.Config;
 import smajava.SmaLogger;
 import smajava.TagDefs;
 import smajava.misc;
@@ -18,8 +17,8 @@ public class SBFspotTest
 {
 	public static void main(String[] args) 
 	{
-		Config config = new Config();
-		SmaLogger smaLogger = new SmaLogger(config);
+		final String PASSWORD = "0000";	//Default password
+		SmaLogger smaLogger = new SmaLogger();
 		Inverter inverter;
 		int rc = 0;
 		
@@ -42,10 +41,15 @@ public class SBFspotTest
 		System.out.println("logging on inverter...");
 		
 		System.out.printf("Inverter %s logged on... ", inverter.GetIP());
-		if(inverter.Logon(config.userGroup, config.SMA_Password) > -1)
+		if(inverter.Logon(PASSWORD) > -1)
 			System.out.printf("Succesful \n");
 		else
+		{
 			System.out.printf("Unsuccesful\n");
+			System.out.println("Shutting down SMA Logger.");
+			smaLogger.ShutDown();
+			System.exit(-1);
+		}
 		
 		System.out.println("Getting some data...");
 		if ((rc = inverter.GetInverterData(InverterDataType.SoftwareVersion)) != 0)
@@ -155,8 +159,7 @@ public class SBFspotTest
 	        System.out.printf("getSpotDCVoltage returned an error: %d\n", rc);
 
 	    //Calculate missing DC Spot Values
-	    if (config.calcMissingSpot == 1)
-	        inverter.CalcMissingSpot();
+	    inverter.CalcMissingSpot();
 
 		inverter.Data.calPdcTot = inverter.Data.Pdc1 + inverter.Data.Pdc2;
         System.out.printf("SUSyID: %d - SN: %d\n", inverter.Data.SUSyID, inverter.Data.Serial);
@@ -174,8 +177,7 @@ public class SBFspotTest
 	        System.out.printf("getSpotACTotalPower returned an error: %d\n", rc);
 
 	    //Calculate missing AC Spot Values
-	    if (config.calcMissingSpot == 1)
-	        inverter.CalcMissingSpot();
+	    inverter.CalcMissingSpot();
 
         System.out.printf("SUSyID: %d - SN: %d\n", inverter.Data.SUSyID, inverter.Data.Serial);
         System.out.println("AC Spot Data:");

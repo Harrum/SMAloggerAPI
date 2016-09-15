@@ -2,7 +2,6 @@ package test;
 
 import inverter.Inverter;
 import inverterdata.InverterDataType;
-import smajava.Config;
 import smajava.SmaLogger;
 import smajava.misc;
 
@@ -12,16 +11,15 @@ import smajava.misc;
  */
 public class ThreadedTest implements Runnable
 {
+	final String PASSWORD = "0000";	//Default password
 	final int RUN_COUNT = 5;	//Number of times to read the inverter.
 	final int WAIT_TIME = 5000;	//Wait time between reading the inverter again.
-	Config config;
 	SmaLogger smaLogger;
 	Inverter inverter;
 	
 	public void Initialize(String[] args)
 	{
-		config = new Config();
-		smaLogger = new SmaLogger(config);
+		smaLogger = new SmaLogger();
 		
 		int rc = 0;
 		
@@ -66,7 +64,7 @@ public class ThreadedTest implements Runnable
 		System.out.println("logging on inverter...");
 		
 		System.out.printf("Inverter %s logged on... ", inverter.GetIP());
-		if(inverter.Logon(config.userGroup, config.SMA_Password) > -1)
+		if(inverter.Logon(PASSWORD) > -1)
 		{
 			System.out.printf("Succesful \n");
 			loggedOn = true;

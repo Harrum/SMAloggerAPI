@@ -1,8 +1,10 @@
 package smajava;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,19 +82,20 @@ public class TagDefs
 		return instance;
 	}
 	
-	public int readall(String path, String locale)
+	public int readall(String locale)
 	{
 		locale = locale.toUpperCase();
 
 		//Build fullpath to taglist<locale>.txt
 		//Default to EN-US if localized file not found
-		String fn_taglist = path + "\\support_files\\TagList" + locale + ".txt";
-		//File f = new File(fn_taglist);
+		String fn_taglist = "/support_files/TagList" + locale + ".txt";
+
+		InputStream in = getClass().getResourceAsStream(fn_taglist);
 		
-		FileReader fr = null;
+		Reader fr = null;
 		try
 		{
-			 fr = new FileReader(fn_taglist);
+			 fr = new InputStreamReader(in);
 		}
 		catch(Exception e)
 		{
@@ -102,11 +105,12 @@ public class TagDefs
 			if (!locale.equals("EN-US"))
 			{
 				if (isverbose(0)) System.out.println("Using default locale en-US\n");
-				fn_taglist = path + "\\support_files\\TagListEN-US.txt";
+				fn_taglist = "/support_files/TagListEN-US.txt";
+				in = getClass().getResourceAsStream(fn_taglist);
 				
 				try
 				{
-					fr = new FileReader((fn_taglist));
+					fr = new InputStreamReader((in));
 				}
 				catch(Exception ex)
 				{

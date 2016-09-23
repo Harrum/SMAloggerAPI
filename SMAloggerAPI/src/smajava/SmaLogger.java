@@ -2,7 +2,6 @@ package smajava;
 
 import inverter.Inverter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +17,6 @@ public class SmaLogger
 	public final static long UG_USER = 0x07L;
 	public final static long UG_INSTALLER = 0x0AL;
 	
-	private String AppPath;
 	private final String IP_Broadcast = "239.12.255.254";
 	private Ethernet ethernet;
 	
@@ -44,14 +42,6 @@ public class SmaLogger
 	 */
 	public int Initialize(String[] args)
 	{
-		//The path where this application is.
-		AppPath = new File(".").getAbsolutePath();
-		int pos = AppPath.lastIndexOf('\\');
-		if (pos != -1)
-			AppPath = AppPath.substring(++pos);
-		else
-			AppPath = "";
-
 		int rc = 0;
 		
 		//Read the command line
@@ -75,7 +65,7 @@ public class SmaLogger
 	    if (rc != 0) return rc;
 	    
 	    //Lets just use the english taglist for now.
-	    int status = TagDefs.GetInstance().readall(AppPath, "en-US");
+	    int status = TagDefs.GetInstance().readall("en-US");
 		if (status != TagDefs.READ_OK)
 		{
 			System.err.print("Error reading tags\n");
@@ -312,11 +302,12 @@ public class SmaLogger
 	            return 1;	// Caller should terminate, no error
 	        }
 
+	        /* Not sure what the purpose of this block was but it prevent the user from setting the program to quiet.
 	        else if (quiet == 0)
 	        {
 	            InvalidArg(argv[i]);
 	            return -1;
-	        }
+	        }*/
 
 	    }
 
